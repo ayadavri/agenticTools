@@ -1,0 +1,33 @@
+{
+  "lambdaArn": "<YOUR_LAMBDA_ARN>",
+  "toolSchema": {
+    "inlinePayload": [
+      {
+        "name": "get_consumer_documents",
+        "description": "Fetch signed document storage URLs for a collections case from the Resident Interface API. Requires case_id and account_id.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "case_id": {
+              "type": "string",
+              "description": "Case identifier"
+            },
+              "account_id": {
+                "type": "string",
+                "description": "Account ID for x-account-id header"
+              },
+              "collection_core_base_api_url": {
+                "type": "string",
+                "description": "Get consumer document from the Resident Interface API url"
+              },
+              "timeout_s": {
+                "type": "number",
+                "description": "API Timeout in seconds"
+              }
+          },
+          "required": ["case_id", "account_id", "collection_core_base_api_url"]
+        }
+      }
+    ]
+  }
+}
