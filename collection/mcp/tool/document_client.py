@@ -61,6 +61,7 @@ def fetch_case_documents(
     account_id: str,
     collection_core_base_api_url: str,
     timeout_s: float | None = None,
+    api_key: str | None = None,
 ) -> DocumentFetchResult:
     """GET case documents and return signed storage URLs."""
     cid = (case_id or "").strip()
@@ -74,7 +75,7 @@ def fetch_case_documents(
     base = (collection_core_base_api_url).rstrip("/")
     url = f"{base}{_DOCUMENTS_PATH.format(case_id=cid)}"
     headers = {"content-type": "application/json", "x-account-id": aid}
-    token = None
+    token = (api_key or "").strip()
     if token:
         headers["x-api-key"] = token
 
