@@ -11,8 +11,6 @@ class Settings(BaseSettings):
     )
 
     aws_region: str = "us-east-1"
-    ri_core_api_key: str = ""
-    ri_core_api_key_secret_arn: str = ""
     collection_core_documents_api_ssm_parameter: str = "/agents/COLLECTION_CORE_DOCUMENTS_API_KEY"
 
 

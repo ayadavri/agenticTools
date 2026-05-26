@@ -37,9 +37,8 @@ def invoke_get_consumer_documents(payload: dict[str, Any]) -> dict[str, Any]:
             "ok": False,
             "http_status": None,
             "error_message": (
-                "RI API key not configured. Set RI_CORE_API_KEY (local dev), "
-                "RI_CORE_API_KEY_SECRET_ARN (from agentcore add credential --type api-key), "
-                "or COLLECTION_CORE_DOCUMENTS_API_SSM_PARAMETER."
+                "RI API key not configured. Set COLLECTION_CORE_DOCUMENTS_API_SSM_PARAMETER "
+                "on the runtime (default: /agents/COLLECTION_CORE_DOCUMENTS_API_KEY)."
             ),
         }
 

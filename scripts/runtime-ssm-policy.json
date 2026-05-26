@@ -1,0 +1,11 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ReadCollectionDocumentsApiKey",
+      "Effect": "Allow",
+      "Action": "ssm:GetParameter",
+      "Resource": "arn:aws:ssm:us-east-1:302010998259:parameter/agents/COLLECTION_CORE_DOCUMENTS_API_KEY"
+    }
+  ]
+}
