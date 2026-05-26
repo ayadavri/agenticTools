@@ -10,16 +10,11 @@ from __future__ import annotations
 
 import json
 import logging
-import os
 from functools import lru_cache
-from typing import Any
+
+from collection.config import get_settings
 
 logger = logging.getLogger(__name__)
-
-_ENV_DIRECT = "RI_CORE_API_KEY"
-_ENV_SECRET_ARN = "RI_CORE_API_KEY_SECRET_ARN"
-_ENV_SSM_PARAMETER = "COLLECTION_CORE_DOCUMENTS_API_SSM_PARAMETER"
-_ENV_REGION = "AWS_REGION"
 
 
 def _parse_secret_string(raw: str) -> str:
@@ -41,22 +36,22 @@ def _parse_secret_string(raw: str) -> str:
 
 @lru_cache(maxsize=1)
 def resolve_ri_core_api_key() -> str | None:
-    """Load API key once per Lambda execution environment (cached)."""
-    direct = (os.environ.get(_ENV_DIRECT) or "").strip()
-    if direct:
-        return direct
+    """Load API key once per execution environment (cached)."""
+    settings = get_settings()
 
-    secret_arn = (os.environ.get(_ENV_SECRET_ARN) or "").strip()
+    if settings.ri_core_api_key.strip():
+        return settings.ri_core_api_key.strip()
+
+    secret_arn = settings.ri_core_api_key_secret_arn.strip()
     if secret_arn:
         key = _load_secrets_manager(secret_arn)
         if key:
             return key
         logger.warning("Secrets Manager returned empty key for %s", secret_arn)
 
-    param = (os.environ.get(_ENV_SSM_PARAMETER) or "").strip()
+    param = settings.collection_core_documents_api_ssm_parameter.strip()
     if param:
-        region = (os.environ.get(_ENV_REGION) or "us-east-1").strip()
-        key = _load_ssm(param, region)
+        key = _load_ssm(param, settings.aws_region.strip() or "us-east-1")
         if key:
             return key
         logger.warning("SSM parameter empty or missing: %s", param)
